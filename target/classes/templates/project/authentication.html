@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Authentication - Firebase Console</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+<body class="d-flex flex-column" style="min-height:100vh;background:#f5f5f5;">
+
+<div th:replace="~{layout/sidebar :: topnav(${user})}"></div>
+<div class="d-flex flex-grow-1">
+    <div th:replace="~{layout/sidebar :: sidebar(${project}, ${activeSection})}"></div>
+    <main class="flex-grow-1 p-4 overflow-auto">
+        <div class="mb-4">
+            <h3 class="fw-bold mb-1">Authentication</h3>
+            <p class="text-muted mb-0">Manage sign-in methods and user authentication for your app.</p>
+        </div>
+
+        <!-- Status Banner -->
+        <div th:if="${project.authEnabled}" class="alert border-0 mb-4" style="background:#e8f5e9;color:#2e7d32;">
+            <i class="bi bi-shield-check me-2"></i>
+            <strong>Authentication is enabled</strong> for this project. Users can sign in using configured providers.
+        </div>
+        <div th:unless="${project.authEnabled}" class="alert border-0 mb-4" style="background:#fff3e0;color:#e65100;">
+            <i class="bi bi-shield-exclamation me-2"></i>
+            <strong>Authentication is disabled.</strong> Enable it in
+            <a th:href="@{/project/{id}/settings(id=${project.projectId})}" class="alert-link">Project Settings</a>.
+        </div>
+
+        <!-- Sign-in Methods -->
+        <div class="card border-0 shadow-sm mb-4">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-person-badge me-2" style="color:#f57c00;"></i>Sign-in Providers</h5>
+            </div>
+            <div class="card-body p-0">
+                <div class="list-group list-group-flush">
+                    <div class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;background:#e3f2fd;">
+                                <i class="bi bi-envelope" style="color:#1565c0;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Email/Password</div>
+                                <div class="text-muted small">Allow users to sign in with email and password</div>
+                            </div>
+                        </div>
+                        <span th:if="${project.authEnabled}" class="badge bg-success rounded-pill">Enabled</span>
+                        <span th:unless="${project.authEnabled}" class="badge bg-secondary rounded-pill">Disabled</span>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;background:#fce4ec;">
+                                <i class="bi bi-google" style="color:#c62828;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Google</div>
+                                <div class="text-muted small">Sign in with Google accounts</div>
+                            </div>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">Not Configured</span>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;background:#e8eaf6;">
+                                <i class="bi bi-facebook" style="color:#283593;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Facebook</div>
+                                <div class="text-muted small">Sign in with Facebook accounts</div>
+                            </div>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">Not Configured</span>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;background:#f3e5f5;">
+                                <i class="bi bi-phone" style="color:#6a1b9a;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Phone Number</div>
+                                <div class="text-muted small">Sign in with SMS verification</div>
+                            </div>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">Not Configured</span>
+                    </div>
+                    <div class="list-group-item d-flex align-items-center justify-content-between py-3 px-4">
+                        <div class="d-flex align-items-center gap-3">
+                            <div class="rounded-2 d-flex align-items-center justify-content-center" style="width:40px;height:40px;background:#e0f2f1;">
+                                <i class="bi bi-person-x" style="color:#00695c;font-size:1.1rem;"></i>
+                            </div>
+                            <div>
+                                <div class="fw-semibold">Anonymous</div>
+                                <div class="text-muted small">Allow anonymous sign-in</div>
+                            </div>
+                        </div>
+                        <span class="badge bg-secondary rounded-pill">Disabled</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- API Endpoints -->
+        <div class="card border-0 shadow-sm">
+            <div class="card-header bg-white border-bottom py-3">
+                <h5 class="mb-0 fw-bold"><i class="bi bi-code-slash me-2" style="color:#f57c00;"></i>REST API Endpoints</h5>
+            </div>
+            <div class="card-body">
+                <p class="text-muted small mb-3">Use these endpoints from your Flutter SDK to authenticate users.</p>
+                <div class="p-3 rounded-3 mb-3" style="background:#1a1a2e;">
+                    <div class="text-success small fw-bold mb-1">POST /api/v1/project/<span th:text="${project.projectId}">id</span>/auth/register</div>
+                    <pre class="text-light small mb-0">{"name": "John", "email": "john@example.com", "password": "secret123"}</pre>
+                </div>
+                <div class="p-3 rounded-3" style="background:#1a1a2e;">
+                    <div class="text-info small fw-bold mb-1">POST /api/v1/project/<span th:text="${project.projectId}">id</span>/auth/login</div>
+                    <pre class="text-light small mb-0">{"email": "john@example.com", "password": "secret123"}</pre>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

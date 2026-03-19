@@ -1,0 +1,130 @@
+/* Firebase Console - Custom CSS */
+
+/* Sidebar navigation links */
+.sidebar-link {
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.55rem 1rem;
+    border-radius: 8px;
+    margin: 0.1rem 0.5rem;
+    font-size: 0.875rem;
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.sidebar-link:hover {
+    color: #ffffff;
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.sidebar-link.active {
+    color: #f57c00;
+    background: rgba(245, 124, 0, 0.12);
+    font-weight: 600;
+}
+
+.sidebar-link.active i {
+    color: #f57c00;
+}
+
+.sidebar-section-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.35);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 0.75rem 1.5rem 0.25rem;
+    list-style: none;
+}
+
+/* Buttons */
+.btn-firebase {
+    background: linear-gradient(135deg, #f57c00, #ff6d00);
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.btn-firebase:hover {
+    background: linear-gradient(135deg, #e65100, #f57c00);
+    color: #fff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(245, 124, 0, 0.35);
+}
+
+.btn-firebase:active {
+    transform: translateY(0);
+}
+
+.btn-firebase:disabled {
+    background: #ccc;
+    transform: none;
+    box-shadow: none;
+    cursor: not-allowed;
+}
+
+/* Form Focus */
+.form-control:focus,
+.form-select:focus {
+    border-color: #f57c00;
+    box-shadow: 0 0 0 0.2rem rgba(245, 124, 0, 0.2);
+}
+
+/* Cards */
+.card {
+    border-radius: 10px;
+}
+
+/* Code blocks */
+pre {
+    margin: 0;
+    font-family: 'Fira Code', 'Consolas', 'Courier New', monospace;
+    font-size: 0.82rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    word-break: break-all;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.2);
+    border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0,0,0,0.35);
+}
+
+/* Animations */
+.card {
+    transition: box-shadow 0.2s ease;
+}
+
+/* Badge utilities */
+.bg-success-subtle { background-color: #d1e7dd !important; }
+.bg-primary-subtle { background-color: #cfe2ff !important; }
+.bg-info-subtle    { background-color: #cff4fc !important; }
+.bg-warning-subtle { background-color: #fff3cd !important; }
+
+/* Monospace */
+.font-monospace {
+    font-family: 'Fira Code', 'Consolas', monospace;
+}
+
+/* Responsive: hide sidebar on small screens */
+@media (max-width: 768px) {
+    nav[style*="width:240px"] {
+        display: none !important;
+    }
+}
+
+/* Dashboard project cards */
+.project-card { transition: transform .2s, box-shadow .2s; }
+.project-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12) !important; }
+.add-project-card:hover { border-color: #f57c00 !important; background: #fff8f0 !important; }

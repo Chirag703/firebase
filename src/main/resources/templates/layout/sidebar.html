@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(pageTitle)">
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title th:text="${pageTitle} + ' - Firebase Console'">Firebase Console</title>
+    <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="/css/bootstrap-icons.css"/>
+    <link rel="stylesheet" th:href="@{/css/app.css}"/>
+</head>
+
+<!-- Project Sidebar Navigation -->
+<nav th:fragment="sidebar(project, activeSection)"
+     class="d-flex flex-column"
+     style="width:240px; min-height:100vh; background:#1a1a2e; flex-shrink:0;">
+
+    <!-- Project Header -->
+    <div class="px-3 py-3" style="border-bottom:1px solid rgba(255,255,255,0.1);">
+        <a th:href="@{/dashboard}" class="d-flex align-items-center gap-2 text-decoration-none mb-2">
+            <i class="bi bi-chevron-left" style="color:#f57c00;"></i>
+            <span class="small" style="color:#aaa;">All Projects</span>
+        </a>
+        <div class="d-flex align-items-center gap-2">
+            <div class="rounded-2 d-flex align-items-center justify-content-center flex-shrink-0"
+                 style="width:32px;height:32px;background:#f57c00;">
+                <i class="bi bi-fire text-white small"></i>
+            </div>
+            <div class="overflow-hidden">
+                <div class="fw-bold text-white text-truncate" style="font-size:0.9rem;" th:text="${project?.name}">Project</div>
+                <div class="text-truncate" style="font-size:0.72rem;color:#888;" th:text="${project?.projectId}">id</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nav Items -->
+    <ul class="nav flex-column py-2 flex-grow-1">
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/overview(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'overview'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-speedometer2"></i><span>Overview</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-label">Build</li>
+
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/authentication(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'authentication'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-shield-lock"></i><span>Authentication</span>
+                <span th:if="${project?.authEnabled}" class="ms-auto badge rounded-pill" style="background:#1e3a5f;color:#6ea8fe;font-size:.65rem;">ON</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/database(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'database'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-database"></i><span>Firestore Database</span>
+                <span th:if="${project?.firestoreEnabled}" class="ms-auto badge rounded-pill" style="background:#1e3a5f;color:#6ea8fe;font-size:.65rem;">ON</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/storage(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'storage'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-cloud-upload"></i><span>Storage</span>
+                <span th:if="${project?.storageEnabled}" class="ms-auto badge rounded-pill" style="background:#1e3a5f;color:#6ea8fe;font-size:.65rem;">ON</span>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/messaging(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'messaging'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-bell"></i><span>Cloud Messaging</span>
+                <span th:if="${project?.messagingEnabled}" class="ms-auto badge rounded-pill" style="background:#1e3a5f;color:#6ea8fe;font-size:.65rem;">ON</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-label">Integrations</li>
+
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/flutter-sdk(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'flutter-sdk'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-phone"></i><span>Flutter SDK</span>
+            </a>
+        </li>
+
+        <li class="sidebar-section-label">Project</li>
+
+        <li class="nav-item">
+            <a th:href="@{/project/{id}/settings(id=${project?.projectId})}"
+               th:classappend="${activeSection == 'settings'} ? 'active' : ''"
+               class="sidebar-link nav-link d-flex align-items-center gap-2">
+                <i class="bi bi-gear"></i><span>Project Settings</span>
+            </a>
+        </li>
+    </ul>
+
+    <!-- Bottom: plan badge -->
+    <div class="px-3 py-3" style="border-top:1px solid rgba(255,255,255,0.1);">
+        <span class="badge rounded-pill" style="background:#2a2a4a;color:#f57c00;font-size:.75rem;">
+            <i class="bi bi-stars me-1"></i><span th:text="${project?.plan}">Spark</span>
+        </span>
+    </div>
+</nav>
+
+<!-- Top Navbar Fragment -->
+<nav th:fragment="topnav(user)" class="navbar navbar-expand-lg navbar-dark"
+     style="background:#1a1a2e; border-bottom:1px solid rgba(255,255,255,0.1); height:56px;">
+    <div class="container-fluid px-4">
+        <span class="navbar-brand d-flex align-items-center gap-2">
+            <i class="bi bi-fire" style="color:#f57c00; font-size:1.4rem;"></i>
+            <span class="fw-bold" style="color:#fff; font-size:1.1rem; letter-spacing:1px;">Firebase Console</span>
+        </span>
+        <div class="ms-auto d-flex align-items-center gap-3">
+            <div class="dropdown">
+                <button class="btn btn-sm d-flex align-items-center gap-2 text-white"
+                        style="background:rgba(255,255,255,0.1); border:none; border-radius:20px; padding:4px 12px;"
+                        data-bs-toggle="dropdown">
+                    <i class="bi bi-person-circle"></i>
+                    <span class="small" th:text="${user?.name}">User</span>
+                    <i class="bi bi-chevron-down small"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><h6 class="dropdown-header" th:text="${user?.email}">email</h6></li>
+                    <li><hr class="dropdown-divider"/></li>
+                    <li>
+                        <a class="dropdown-item" th:href="@{/dashboard}">
+                            <i class="bi bi-grid me-2"></i>All Projects
+                        </a>
+                    </li>
+                    <li>
+                        <form th:action="@{/auth/logout}" method="post">
+                            <input type="hidden" name="_csrf" th:value="${_csrf?.token}"/>
+                            <button type="submit" class="dropdown-item text-danger">
+                                <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+</html>
